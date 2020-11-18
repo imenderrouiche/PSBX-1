@@ -48,7 +48,6 @@ library(plotly)
 
 library(rmarkdown) # Convertir les documents R Markdown en divers formats
 library(dplyr)     # dplyr est une extension facilitant le traitement et la manipulation de données contenues dans une ou plusieurs tables
-library(ggmosaic)  # mosaic plot dans le framework ggplot
 library(htmlwidgets) #Exporter des plot en html
 
 ```
@@ -1031,28 +1030,6 @@ subplot(barcharts, margin = 0.01) %>%
   layout(legend = list(y = 1)) %>%
   colorbar(y = 0.5)
 ```
-
-
-```{r organisation tracés,message=FALSE}
-p1 <- plot_ly(economics, x = ~date, y = ~unemploy) %>% 
-  add_lines(name = "unemploy")
-p2 <- plot_ly(economics, x = ~date, y = ~uempmed) %>% 
-  add_lines(name = "uempmed")
-subplot(p1, p2)
-```
-
-Bien que subplot () accepte un nombre arbitraire d'objets de tracé, le fait de transmettre une liste de tracés peut économiser le typage et le code redondant lors du traitement d'un grand nombre de tracés.
-La figure suivante montre une série chronologique pour chaque variable de l'ensemble de données économiques et partage l'axe des x afin que les événements de zoom / panoramique soient synchronisés sur chaque série:
-
-```{r organisation tracés chrono,message=FALSE}
-vars <- setdiff(names(economics), "date")
-plots <- lapply(vars, function(var) {
-  plot_ly(economics, x = ~date, y = as.formula(paste0("~", var))) %>%
-    add_lines(name = var)
-})
-subplot(plots, nrows = length(plots), shareX = TRUE, titleX = FALSE)
-```
-
 
 # V - Publication de visuels
 
